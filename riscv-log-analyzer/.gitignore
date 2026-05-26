@@ -1,0 +1,16 @@
+# Generated reports and output
+output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.tmp
