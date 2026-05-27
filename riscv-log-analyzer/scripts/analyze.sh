@@ -11,6 +11,7 @@ LOG_FILE=""
 FORMAT="text"
 OUTPUT=""
 VERBOSE=0
+COMPARE_FILE=""
 
 # ─── Colors ───────────────────────────────────────────────────────
 RED='\033[0;31m'
@@ -55,6 +56,10 @@ parse_args() {
             --verbose)
                 VERBOSE=1
                 shift
+                ;;
+            --compare)
+                COMPARE_FILE="$2"
+                shift 2
                 ;;
             --help)
                 print_usage
@@ -163,10 +168,51 @@ print_csv_report() {
     echo "$LOG_FILE,$TOTAL,$PASSED,$FAILED,$SKIPPED,$PASS_RATE,$MIN_TIME,$MAX_TIME,$AVG_TIME"
 }
 
+compare_logs() {
+    # Check compare file exists
+    if [ ! -f "$COMPARE_FILE" ]; then
+        echo "Error: Compare file not found: $COMPARE_FILE"
+        exit 1
+    fi
+
+    echo "=== Regression Comparison ==="
+    echo "Baseline: $COMPARE_FILE"
+    echo "Current:  $LOG_FILE"
+    echo ""
+
+    # Get passed tests from baseline
+    BASELINE_PASSED=$(grep "TEST PASS" "$COMPARE_FILE" | awk '{print $5}')
+    # Get failed tests from current
+    CURRENT_FAILED=$(grep "TEST FAIL" "$LOG_FILE" | awk '{print $5}')
+
+    # Find regressions: tests that passed before but fail now
+    REGRESSIONS=""
+    while IFS= read -r test; do
+        if echo "$CURRENT_FAILED" | grep -q "^${test}$"; then
+            REGRESSIONS="$REGRESSIONS $test"
+        fi
+    done <<< "$BASELINE_PASSED"
+
+    if [ -z "$REGRESSIONS" ]; then
+        echo -e "${GREEN}No regressions found! All previously passing tests still pass.${NC}"
+    else
+        echo -e "${RED}Regressions detected (passed before, failing now):${NC}"
+        for test in $REGRESSIONS; do
+            echo "  ✗ $test"
+        done
+    fi
+    echo ""
+}
+
 # ─── Main ─────────────────────────────────────────────────────────
 parse_args "$@"
 validate_input
 analyze_log
+
+# Run comparison if requested
+if [ -n "$COMPARE_FILE" ]; then
+    compare_logs
+fi
 
 # Build and output the report
 if [ "$FORMAT" = "csv" ]; then
