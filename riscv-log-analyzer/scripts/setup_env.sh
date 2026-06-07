@@ -80,7 +80,7 @@ check_scripts_executable() {
 
 # ─── Main ─────────────────────────────────────────────────────────
 echo "╔══════════════════════════════════════╗"
-echo "║   RISC-V Log Analyzer — Setup       ║"
+echo "║   RISC-V Log Analyzer — Setup        ║"
 echo "╚══════════════════════════════════════╝"
 echo ""
 

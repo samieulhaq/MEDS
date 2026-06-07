@@ -27,10 +27,12 @@ print_usage() {
     echo "  --format [text|csv]   Output format (default: text)"
     echo "  --output <path>       Output file path (default: stdout)"
     echo "  --verbose             Enable verbose output"
+    echo "  --compare <path>     Compare with baseline log to detect regressions"
     echo "  --help                Show this help message"
     echo ""
     echo "Example:"
     echo "  $0 test_data/sample_fail.log --format text --verbose"
+    echo "  $0 test_data/sample_fail.log --compare test_data/sample_sim.log"
 }
 
 parse_args() {
