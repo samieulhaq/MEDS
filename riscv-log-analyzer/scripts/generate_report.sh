@@ -36,7 +36,7 @@ generate_all_reports() {
     mkdir -p "$OUTPUT_DIR"
 
     echo "╔══════════════════════════════════════╗"
-    echo "║   RISC-V Log Analyzer — Batch Run   ║"
+    echo "║   RISC-V Log Analyzer — Batch Run    ║"
     echo "╚══════════════════════════════════════╝"
     echo ""
     echo "Scanning: $TEST_DATA"
