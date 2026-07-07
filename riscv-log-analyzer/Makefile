@@ -31,7 +31,7 @@ test: setup
 		echo "Testing: $$name"; \
 		bash $(ANALYZE) $$log > /dev/null 2>&1 && \
 			echo "  [OK] $$name analyzed successfully" && PASS=$$((PASS+1)) || \
-			echo "  [OK] $$name analyzed (failures found in log)" && PASS=$$((PASS+1)); \
+			echo "  [FAIL] $$name analyzed (failures found in log)" && FAIL=$$((FAIL+1)); \
 	done; \
 	echo ""; \
 	echo "All $$PASS log files processed successfully."
