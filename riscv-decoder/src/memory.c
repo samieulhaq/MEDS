@@ -1,3 +1,5 @@
+#include "memory.h"
+#include <stdio.h>
 
 size_t load_hex_file(const char *filename, uint32_t *memory, size_t memory_size) {
     if (filename == NULL || memory == NULL || memory_size == 0) return 0;

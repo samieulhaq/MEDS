@@ -5,6 +5,6 @@
 #include <stddef.h>
 
 
-size_t load_hex_file(const char *filename, uint32_t **memory, size_t *capacity);
+size_t load_hex_file(const char *filename, uint32_t *memory, size_t memory_size);
 
 #endif
